@@ -1,9 +1,12 @@
-from rest_framework import serializers
-from .models import Warga
+from django import forms
+from .models import Warga, Pengaduan
 
-class WargaSerializer(serializers.ModelSerializer):
+class WargaForm(forms.ModelForm):
     class Meta:
         model = Warga
-        fields = ['id', 'nik', 'nama_lengkap', 'alamat', 'no_telepon']
-
+        fields = ['nik', 'nama_lengkap', 'alamat', 'no_telepon']
+class PengaduanForm(forms.ModelForm):
+    class Meta:
+        model = Pengaduan
+        fields = ['nik', 'nama_lengkap', 'alamat', 'no_telepon']
  
