@@ -8,5 +8,10 @@ class WargaForm(forms.ModelForm):
 class PengaduanForm(forms.ModelForm):
     class Meta:
         model = Pengaduan
-        fields = ['nik', 'nama_lengkap', 'alamat', 'no_telepon']
- 
+        fields = ['judul', 'deskripsi', 'status', 'pelapor']
+        widgets = {
+            'judul': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Masukkan judul pengaduan'}),
+            'deskripsi': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Tuliskan deskripsi pengaduan...'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'pelapor': forms.Select(attrs={'class': 'form-control'}),
+        }
