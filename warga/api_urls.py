@@ -1,5 +1,6 @@
+# warga/api_urls.py
 from django.urls import path
-from .views import WargaListAPIView
+from .views import WargaListAPIView, WargaCreateAPIView, WargaDetailAPIView
 
 urlpatterns = [
     path('warga/', WargaListAPIView.as_view(), name='api-warga-list'),
