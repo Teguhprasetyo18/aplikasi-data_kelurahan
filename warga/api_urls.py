@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import PengaduanViewSet
 router = DefaultRouter()
 router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')
-router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')
+router.register(r'warga', PengaduanViewSet, basename='warga')
 
 
 urlpatterns = [
