@@ -22,4 +22,5 @@ urlpatterns = [
     path('pengaduan/<int:pk>/hapus/', PengaduanDeleteView.as_view(), name='pengaduan-hapus'),
     path('pengaduan/<int:pk>/', PengaduanDetailView.as_view(), name='pengaduan-detail'),
     path('', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
