@@ -5,7 +5,7 @@ from .views import PengaduanViewSet
 router = DefaultRouter()
 router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')
 router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')
-router.register('login', LoginViewSet, basename='login')
+
 
 urlpatterns = [
     #path('warga/', WargaListAPIView.as_view(), name='api-warga-list'),
