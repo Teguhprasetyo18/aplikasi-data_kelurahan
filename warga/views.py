@@ -6,7 +6,6 @@ from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework import viewsets
 from .serializers import WargaSerializer, PengaduanSerializer    
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from rest_framework import viewsets
 
 
 class PengaduanViewSet(viewsets.ModelViewSet):
