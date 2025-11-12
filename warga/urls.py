@@ -1,13 +1,6 @@
-from django.urls import path
-from .views import WargaListView, WargaDetailView, PengaduanListView, WargaCreateView, PengaduanCreateView, WargaUpdateView, WargaDeleteView, PengaduanDeleteView, PengaduanUpdateView, PengaduanDetailView
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import PengaduanViewSet,WargaViewSet
+from django.urls import path,include
+from .views import WargaListView, WargaDetailView, PengaduanListView, WargaCreateView, PengaduanCreateView, WargaUpdateView, WargaDeleteView, PengaduanDeleteView, PengaduanUpdateView, PengaduanDetailView,PengaduanViewSet,WargaViewSet
 
-router = DefaultRouter()
-router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')
-router = DefaultRouter()
-router.register(r'warga', WargaViewSet, basename='warga')
 
 
 urlpatterns = [
