@@ -30,3 +30,4 @@ class Pengaduan(models.Model):
         return self.judul
 
 # Create your models here.
+
