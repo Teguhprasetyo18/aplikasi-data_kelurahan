@@ -15,3 +15,4 @@ class PengaduanForm(forms.ModelForm):
             'status': forms.Select(attrs={'class': 'form-control'}),
             'pelapor': forms.Select(attrs={'class': 'form-control'}),
         }
+
