@@ -1,5 +1,5 @@
-from django.urls import path,include
-from .views import WargaListView, WargaDetailView, PengaduanListView, WargaCreateView, PengaduanCreateView, WargaUpdateView, WargaDeleteView, PengaduanDeleteView, PengaduanUpdateView, PengaduanDetailView,PengaduanViewSet,WargaViewSet
+from django.urls import path,include # type: ignore
+from .views import WargaListView, WargaDetailView, PengaduanListView, WargaCreateView, PengaduanCreateView, WargaUpdateView, WargaDeleteView, PengaduanDeleteView, PengaduanUpdateView, PengaduanDetailView, PengaduanViewSet,WargaViewSet
 
 
 
