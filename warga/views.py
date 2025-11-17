@@ -1,45 +1,27 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy 
-from .models import Warga, Pengaduan
-from .forms import WargaForm, PengaduanForm
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
-from rest_framework import viewsets,status # Impor viewsets
-from .serializers import WargaSerializer, PengaduanSerializer,LoginSerializer    
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
-from django.shortcuts import redirect
-from rest_framework.decorators import api_view
-
-
-
-class PengaduanViewSet(viewsets.ModelViewSet):
-    queryset = Pengaduan.objects.all()
-    serializer_class = PengaduanSerializer
 
 # Create your views here.
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly 
+from .serializers import WargaSerializer, PengaduanSerializer
+
+from .models import Warga, Pengaduan
+from .forms import WargaForm, PengaduanForm
 
 class WargaListView(ListView):
     model = Warga
-    template_name = 'warga/warga_list.html'
-
+class WargaDetailListView(DetailView):
+    model = Warga
 class PengaduanListView(ListView):
     model = Pengaduan
-    template_name = 'warga/pengaduan_list.html'
-    context_object_name = 'pengaduan_list'
-    ordering = ['-tanggal_lapor']  # urutkan dari yang terbaru
-
-
-class WargaDetailView(DetailView):
-    model = Warga
-    template_name = 'warga/warga_detail.html'
 
 class WargaCreateView(CreateView):
     model = Warga
     form_class = WargaForm
     template_name = 'warga/warga_form.html'
-    success_url = reverse_lazy('warga-list') # Arahkan ke daftar warga setelah sukses
+    success_url = reverse_lazy('warga-list')
 
 class PengaduanCreateView(CreateView):
     model = Pengaduan
@@ -50,7 +32,7 @@ class PengaduanCreateView(CreateView):
 class WargaUpdateView(UpdateView):
     model = Warga
     form_class = WargaForm
-    template_name = 'warga/warga_form.html' # Kita pakai template yang sama
+    template_name = 'warga/warga_form.html'
     success_url = reverse_lazy('warga-list')
 
 class WargaDeleteView(DeleteView):
@@ -60,7 +42,7 @@ class WargaDeleteView(DeleteView):
 
 class PengaduanUpdateView(UpdateView):
     model = Pengaduan
-    fields = ['judul', 'deskripsi', 'status', 'pelapor']
+    form_class = PengaduanForm
     template_name = 'warga/pengaduan_form.html'
     success_url = reverse_lazy('pengaduan-list')
 
@@ -69,17 +51,10 @@ class PengaduanDeleteView(DeleteView):
     template_name = 'warga/pengaduan_confirm_delete.html'
     success_url = reverse_lazy('pengaduan-list')
 
-class PengaduanDetailView(DetailView):
-    model = Pengaduan
-    template_name = 'warga/pengaduan_detail.html'
-    context_object_name = 'pengaduan'
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from .serializers import WargaSerializer, PengaduanSerializer
 
-# --- API VIEWS ---
 class WargaListAPIView(ListAPIView):
-    queryset = Warga.objects.all()
-    serializer_class = WargaSerializer
-
-class WargaCreateAPIView(CreateAPIView):
     queryset = Warga.objects.all()
     serializer_class = WargaSerializer
 
@@ -87,44 +62,19 @@ class WargaDetailAPIView(RetrieveAPIView):
     queryset = Warga.objects.all()
     serializer_class = WargaSerializer
 
-class WargaViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Warga.objects.all().order_by('-tanggal_registrasi')
-    serializer_class = WargaSerializer
-
-class PengaduanViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = Pengaduan.objects.all().order_by('-tanggal_lapor')
+class PengaduanListAPIView(ListAPIView):
+    queryset = Pengaduan.objects.all()
     serializer_class = PengaduanSerializer
 
-class LoginViewSet(viewsets.ViewSet):
-    permission_classes = [AllowAny]
+class PengaduanDetailAPIView(RetrieveAPIView):
+    queryset = Pengaduan.objects.all()
+    serializer_class = PengaduanSerializer
 
-    def create(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data['user']
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'token': token.key,
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                }
-            })
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    
+class WargaViewSet(viewsets.ModelViewSet):
+    queryset = Warga.objects.all().order_by('-tanggal_registrasi')
+    serializer_class = WargaSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-# @api_view(['GET'])
-# def api_root(request):
-#     # Jika user belum login → redirect ke login
-#     if not request.user.is_authenticated:
-#         return redirect('/api/login/')
-#     # Kalau sudah login, bisa tampilkan pesan lain atau data awal
-#     return Response({"message": "Selamat datang di API Warga!"}, status=status.HTTP_200_OK)
+class PengaduanViewSet(viewsets.ModelViewSet):
+    queryset = Pengaduan.objects.all()
+    serializer_class = PengaduanSerializer
